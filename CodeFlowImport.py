@@ -6,11 +6,13 @@ a = 9
 
 b = 8
 
+print(a+b)
+
 c = 'hey'
 
 d = a+b
 
-print(d, c)
+print(c, d)
 
 
 CodeFlowInterpreter.Flow(__file__)

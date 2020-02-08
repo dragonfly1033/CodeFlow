@@ -9,6 +9,8 @@ def Eval(list):
     index = 0
     sequenced={}
     for i in list:
+        if(i[0] == '#'):
+            continue
         i.replace('elif', 'if')
         funcMatches = re.findall(r'^(\s*)def (\w+)\(([a-zA-z0-9,_ ]*)\):', i)
         forrMatches = re.findall(r'^(\s*)for (\w+) in range\((\d+)\):', i)

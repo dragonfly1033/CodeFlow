@@ -2,8 +2,8 @@ from tkinter import *
 
 
 class Arrow:
-    def __init__(self, canvas, fromm, to):
-        canvas.create_line(fromm, to)
+    def __init__(self, canvas, gr):
+        pass
 
 
 class Process:
@@ -20,36 +20,52 @@ class Process:
         self.e = (self.x2, self.y1 + 35)
        # self.arrow = Arrow()
         canvas.create_rectangle(self.x1, self.y1, self.x2, self.y2, fill='blue')
-        canvas.create_text(self.x1+70, self.y1+35, fill='white', text=value, anchor=CENTER)
+        canvas.create_text(self.x1+70, self.y1+35, fill='white', text=value, anchor=CENTER, width=120)
 
 
 class IO:
-    def __init__(self, canvas, fromm, to):
-        pass
+    def __init__(self, canvas, value,  gr):
+        x = gr[0]
+        y = gr[1]
+        self.x1 = ((x+1)*25)+(x*140)
+        self.y1 = ((y+1)*25)+(y*70)
+        self.x2 = self.x1+140
+        self.y2 = self.y1+70
+        self.x1_mod = self.x1 + 10
+        self.x2_mod = self.x2 - 10
+        self.n = (self.x1 + 70, self.y1)
+        self.w = (self.x1, self.y1 + 35)
+        self.s = (self.x1 + 70, self.y2)
+        self.e = (self.x2, self.y1 + 35)
+        coords = [self.x1_mod, self.y1, self.x2, self.y1,
+                 self.x2_mod, self.y2, self.x1, self.y2]
+       # self.arrow = Arrow()
+        canvas.create_polygon(coords, fill='blue')
+        canvas.create_text(self.x1+70, self.y1+35, fill='white', text=value, anchor=CENTER, width=120)
 
 
 class Decision:
-    def __init__(self, canvas, fromm, to):
+    def __init__(self, canvas, gr):
         pass
 
 
 class Print:
-    def __init__(self, canvas, value):
-        pass
+    def __init__(self, canvas, value, gr):
+        self.box = IO(canvas, value, gr)
 
 
 class DefineVariable:
-    def __init__(self, canvas, name, value):
-        pass
+    def __init__(self, canvas, name, value, gr):
+        self.box = Process(canvas, '{} = {}'.format(name, value), gr)
 
 
 class IfStatement:
-    def __init__(self, canvas, condition):
+    def __init__(self, canvas, condition, gr):
         pass
 
 
 class Input:
-    def __init__(self, canvas, question):
+    def __init__(self, canvas, question, gr):
         pass
 
 
@@ -59,27 +75,32 @@ class Importt:
 
 
 class ForLoopRange:
-    def __init__(self, canvas, iterator, range):
+    def __init__(self, canvas, iterator, range, gr):
         pass
 
 
 class ForLoopIter:
-    def __init__(self, canvas, iterator, iterable):
+    def __init__(self, canvas, iterator, iterable, gr):
         pass
 
 
 class WhileLoop:
-    def __init__(self, canvas, condition):
+    def __init__(self, canvas, condition, gr):
         pass
 
 
 class Function:
-    def __init__(self, canvas, name):
+    def __init__(self, canvas, name, gr):
         pass
 
 
+class Other:
+    def __init__(self, canvas, name, gr):
+        self.box = Process(canvas, name, gr)
+
+
 class File:
-    def __init__(self, canvas, name):
+    def __init__(self, canvas, name, gr):
         pass
 
 
@@ -95,12 +116,19 @@ def Generate(sequence):
 
     Xiter = 0
     Yiter = 0
-
+    Iter = 0
     for i in sequence:
         if('import' in i):
-            new = Importt(c, sequence[i], (Xiter, Yiter))
+            globals()['box'+str(Iter)] = Importt(c, sequence[i], (Xiter, Yiter))
+        elif('defvar' in i):
+            globals()['box'+str(Iter)] = DefineVariable(c, sequence[i][0], sequence[i][1], (Xiter, Yiter))
+        elif('print' in i):
+            globals()['box'+str(Iter)] = Print(c, sequence[i], (Xiter, Yiter))
+        elif('other' in i):
+            globals()['box'+str(Iter)] = Other(c, sequence[i], (Xiter, Yiter))
 
         Yiter+=1
+        Iter+=1
         if(Yiter == 7):
             Yiter=0
             Xiter+=1
