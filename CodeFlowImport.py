@@ -17,7 +17,11 @@ print(c, d)
 g = input('whats your name: ')
 
 while g == 'me':
-    print('no')
+    while g == 'you':
+        print('no')
+
+for i in range(3):
+    pass
 
 CodeFlowInterpreter.Flow(__file__)
 # CodeFlowTest.Flow(__file__)

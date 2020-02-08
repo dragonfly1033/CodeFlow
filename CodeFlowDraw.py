@@ -10,8 +10,8 @@ class Process:
     def __init__(self, canvas, value, gr):
         x = gr[0]
         y = gr[1]
-        self.x1 = ((x+1)*25)+(x*140)
-        self.y1 = ((y+1)*25)+(y*70)
+        self.x1 = ((x+1)*gap)+(x*140)
+        self.y1 = ((y+1)*gap)+(y*70)
         self.x2 = self.x1+140
         self.y2 = self.y1+70
         self.n = (self.x1 + 70, self.y1)
@@ -27,8 +27,8 @@ class IO:
     def __init__(self, canvas, value, io,  gr):
         x = gr[0]
         y = gr[1]
-        self.x1 = ((x+1)*25)+(x*140)
-        self.y1 = ((y+1)*25)+(y*70)
+        self.x1 = ((x+1)*gap)+(x*140)
+        self.y1 = ((y+1)*gap)+(y*70)
         self.x2 = self.x1+140
         self.y2 = self.y1+70
         self.x1_mod = self.x1 + 10
@@ -48,8 +48,8 @@ class Decision:
     def __init__(self, canvas, cond, gr):
         x = gr[0]
         y = gr[1]
-        self.x1 = ((x+1)*25)+(x*140)
-        self.y1 = ((y+1)*25)+(y*70)
+        self.x1 = ((x+1)*gap)+(x*140)
+        self.y1 = ((y+1)*gap)+(y*70)
         self.x2 = self.x1+140
         self.y2 = self.y1+70
         self.x1_mod = self.x1 + 10
@@ -89,10 +89,9 @@ class Importt:
     def __init__(self, canvas, importt, gr):
         self.box = Process(canvas, importt, gr)
 
-
 class ForLoopRange:
-    def __init__(self, canvas, iterator, range, gr):
-        pass
+    def __init__(self, canvas, iterator, rangee, gr):
+        self.box = Decision(canvas, '{} <= {}'.format(iterator, int(rangee)+1), gr)
 
 
 class ForLoopIter:
@@ -124,6 +123,13 @@ class File:
 #     'name': 'imp28'}, 'import29': {'name': 'imp29'}, 'import30': {'name': 'imp30'}, 'import31': {'name': 'imp31'}, 'import32': {'name': 'imp32'}, 'import33': {'name': 'imp33'}, 'import34': {'name': 'imp34'}, 'import35': {'name': 'imp35'}, 'import36': {'name': 'imp36'}, 'import37': {'name': 'imp37'}, 'import38': {'name': 'imp38'}, 'import39': {'name': 'imp39'}, 'import40': {'name': 'imp40'}, 'import41': {'name': 'imp41'}, 'import42': {'name': 'imp42'}, 'import43': {'name': 'imp43'}, 'import44': {'name': 'imp44'}, 'import45': {'name': 'imp45'}, 'import46': {'name': 'imp46'}, 'import47': {'name': 'imp47'}, 'import48': {'name': 'imp48'}, 'import49': {'name': 'imp49'}, 'import50': {'name': 'imp50'}, 'import51': {'name': 'imp51'}, 'import52': {'name': 'imp52'}, 'import53': {'name': 'imp53'}, 'import54': {'name': 'imp54'}, 'import55': {'name': 'imp55'}}
 
 def Make(root, c, sequence, Xiter, Yiter, Iter, i):
+    def increment(Xiter, Yiter, Iter):
+        Yiter += 1
+        Iter += 1
+        if(Yiter == 7):
+            Yiter = 0
+            Xiter += 1
+        return Xiter, Yiter, Iter
 
     if('import' in i):
         globals()['box'+str(Iter)] = Importt(c, sequence[i], (Xiter, Yiter))
@@ -139,23 +145,36 @@ def Make(root, c, sequence, Xiter, Yiter, Iter, i):
             globals()['box'+str(Iter)] = DefineVariable(c, sequence[i][0], sequence[i][1], (Xiter, Yiter))
     elif('while' in i):
         globals()['box'+str(Iter)] = WhileLoop(c, sequence[i][2], (Xiter, Yiter))
-        Yiter += 1
+        Xiter, Yiter, Iter = increment(Xiter, Yiter, Iter)
         for ii in sequence[i][0]:
             Xiter, Yiter, Iter = Make(root, c, sequence[i][0], Xiter, Yiter, Iter, ii)
         Yiter-=1
         
-
-    Yiter+=1
-    Iter+=1
-    if(Yiter == 7):
-        Yiter=0
-        Xiter+=1
+    elif('forr' in i):
+        globals()['box'+str(Iter)] = DefineVariable(c, sequence[i][2], '0', (Xiter, Yiter))
+        Xiter, Yiter, Iter = increment(Xiter, Yiter, Iter)
+        globals()['box'+str(Iter)] = ForLoopRange(c, sequence[i][2], sequence[i][3], (Xiter, Yiter))
+        Xiter, Yiter, Iter = increment(Xiter, Yiter, Iter)
+        for ii in sequence[i][0]:
+            Xiter, Yiter, Iter = Make(root, c, sequence[i][0], Xiter, Yiter, Iter, ii)
+        Yiter-=1
+    elif('fori' in i):
+        globals()['box'+str(Iter)] = DefineVariable(c, sequence[i][2],'Next Item in {}'.format(sequence[i][3]), (Xiter, Yiter))
+        Xiter, Yiter, Iter = increment(Xiter, Yiter, Iter)
+        globals()['box'+str(Iter)] = ForLoopIter(c, sequence[i][2], sequence[i][3], (Xiter, Yiter))
+        Xiter, Yiter, Iter = increment(Xiter, Yiter, Iter)
+        for ii in sequence[i][0]:
+            Xiter, Yiter, Iter = Make(root, c, sequence[i][0], Xiter, Yiter, Iter, ii)
+        Yiter-=1
+        
+        
+    Xiter, Yiter, Iter = increment(Xiter, Yiter, Iter)
 
     return Xiter, Yiter, Iter
 
 def Generate(sequence):
     root = Tk()
-    root.geometry('1180x785')
+    root.geometry('1180x810')
 
     c = Canvas(root)
     c.pack(fill='both', expand=True)
@@ -172,6 +191,7 @@ def Generate(sequence):
 def tutorial():
     pass
 
+gap = 40
 
 if __name__ == '__main__':
     tutorial()
