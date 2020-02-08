@@ -1,5 +1,23 @@
-with open(file, r) as f:
-    f.write()
-    l= f.readlines()
-    l.sort()
-    
+{
+    'imports0': 'CodeFlowInterpreter', 
+    'imports1': 'CodeFlowTest', 
+    'function13': [{
+        'forr4': [{
+            'prints0': "'hey'", 
+            'forr3': [{
+                'other0': '            pass\n'
+                    }, [1, 3], 'ii', '7']
+                }, [0, 4], 'i', '5'], 
+            'ifs6': [{
+                'prints0': "'hey'"
+                    }, [4, 6], 'a+b == 5)'], 
+            'ifs8': [{
+                'prints0': "'no'"
+                    }, [6, 8], 'a+b == 6)']
+        }, [4, 13], 'funtionn', 'a, b'], 
+    'whiles17': [{
+        'other0': '  pass\n'
+            }, [15, 17], 'False'], 
+    'other19': 'CodeFlowInterpreter.Flow(__file__)\n', 
+    'other20': '# CodeFlowTest.Flow(__file__)\n'
+    }

@@ -14,6 +14,10 @@ class Process:
         self.y1 = ((y+1)*25)+(y*70)
         self.x2 = self.x1+140
         self.y2 = self.y1+70
+        self.n = (self.x1 + 70, self.y1)
+        self.w = (self.x1, self.y1 + 35)
+        self.s = (self.x1 + 70, self.y2)
+        self.e = (self.x2, self.y1 + 35)
        # self.arrow = Arrow()
         canvas.create_rectangle(self.x1, self.y1, self.x2, self.y2, fill='blue')
         canvas.create_text(self.x1+70, self.y1+35, fill='white', text=value, anchor=CENTER)
@@ -89,24 +93,17 @@ def Generate(sequence):
     c = Canvas(root)
     c.pack(fill='both', expand=True)
 
-    yiter = 0
-    xiter = 0
-    for i in sequence['imports']:
-        print(i)
-        globals()[sequence['imports'][i]] = Importt(c, sequence['imports'][i], (xiter, yiter))
+    Xiter = 0
+    Yiter = 0
 
-        yiter += 1
-        if(yiter == 8):
-            yiter = 0
-            xiter += 1
-    for i in sequence['imports']:
-        print(i)
-        globals()[sequence['imports'][i]] = Importt(c, sequence['imports'][i], (xiter, yiter))
+    for i in sequence:
+        if('import' in i):
+            new = Importt(c, sequence[i], (Xiter, Yiter))
 
-        yiter += 1
-        if(yiter == 8):
-            yiter = 0
-            xiter += 1
+        Yiter+=1
+        if(Yiter == 7):
+            Yiter=0
+            Xiter+=1
 
     root.mainloop()
 

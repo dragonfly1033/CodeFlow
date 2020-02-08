@@ -2,33 +2,17 @@ import CodeFlowInterpreter
 import CodeFlowTest
 
 
-def function3(a, b):
-    summ = a+b
-    print(summ)
+a = 9
 
+b = 8
 
-a = 3  
+c = 'hey'
 
-b = 9
+d = a+b
 
-list = []
-
-for i in range(5):
-    pass
-
-for i in list:
-    pass
-
-while False:
-    pass
-
-if(b == 4):
-    pass
-
-
-function3(a, b)
+print(d, c)
 
 
 CodeFlowInterpreter.Flow(__file__)
-#CodeFlowTest.Flow(__file__)
-input()
+# CodeFlowTest.Flow(__file__)
+#input()

@@ -4,7 +4,6 @@ import CodeFlowDraw
 sequence = {}
 
 def Eval(list):
-    global sequence
     # FORMAT: {tempName: [[whitespace],[start, end],extra info], etc.}
     openConstructs = {}
     index = 0
@@ -33,7 +32,7 @@ def Eval(list):
         for x in openConstructs:
             if(len(currIndent) <= len(openConstructs[x][0][0])):
                 openConstructs[x][1].append(index)
-                cont = list[openConstructs[x][1][0]:openConstructs[x][1][1]]
+                cont = list[openConstructs[x][1][0]+1:openConstructs[x][1][1]+1]
                 openConstructs[x].insert(1, cont)
                 if('function' in x):
                     sequenced['function'+str(index)] = openConstructs[x][1:]
@@ -111,26 +110,41 @@ def Eval(list):
 
     return sequenced
 
+
 def embedCheck(d):
 
-    for i in d:
-        if('function' in str(d[i][0])):
-            d[i][0] = Eval(d[i][0])
-            embedCheck(d[i][0])
-        elif('forr' in str(d[i][0])):
-            d[i][0] = Eval(d[i][0])
-            embedCheck(d[i][0])
-        elif('fori' in str(d[i][0])):
-            d[i][0] = Eval(d[i][0])
-            embedCheck(d[i][0])
-        elif('while' in str(d[i][0])):
-            d[i][0] = Eval(d[i][0])
-            embedCheck(d[i][0])
-        elif('if' in str(d[i][0])):
-            d[i][0] = Eval(d[i][0])
-            embedCheck(d[i][0])
-        else:
-            break
+    if('for' in str(d)):
+        for i in d:
+            if('for' in i):
+                if(type(d[i][0]).__name__ == 'list'):
+                    d[i][0] = Eval(d[i][0])
+                    embedCheck(d[i][0])
+                else:
+                    return True
+    if('function' in str(d)):
+        for i in d:
+            if('function' in i):
+                if(type(d[i][0]).__name__ == 'list'):
+                    d[i][0] = Eval(d[i][0])
+                    embedCheck(d[i][0])
+                else:
+                    return True
+    if('while' in str(d)):
+        for i in d:
+            if('while' in i):
+                if(type(d[i][0]).__name__ == 'list'):
+                    d[i][0] = Eval(d[i][0])
+                    embedCheck(d[i][0])
+                else:
+                    return True
+    if('if' in str(d)):
+        for i in d:
+            if('if' in i):
+                if(type(d[i][0]).__name__ == 'list'):
+                    d[i][0] = Eval(d[i][0])
+                    embedCheck(d[i][0])
+                else:
+                    return True
 
 
 def Flow(file):
@@ -140,8 +154,7 @@ def Flow(file):
     sequence = Eval(list)
     embedCheck(sequence)
     print(sequence)
-
-
-
+    CodeFlowDraw.Generate(sequence)
 
             # CodeFlowDraw.Generate(e)
+
