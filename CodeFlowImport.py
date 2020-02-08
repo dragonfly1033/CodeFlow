@@ -7,7 +7,7 @@ def function3(a, b):
     print(summ)
 
 
-a = 3  # int(input('Enter number: '))
+a = 3  
 
 b = 9
 
@@ -30,5 +30,5 @@ function3(a, b)
 
 
 CodeFlowInterpreter.Flow(__file__)
+#CodeFlowTest.Flow(__file__)
 input()
-# CodeFlowTest.run(__file__)
