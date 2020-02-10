@@ -12,6 +12,8 @@ c = 'hey'
 
 d = a+b
 
+list = [1, 2, 3, 4]
+
 print(c, d)
 
 g = input('whats your name: ')
@@ -21,7 +23,8 @@ while g == 'me':
         print('no')
 
 for i in range(3):
-    pass
+    for i in list:
+        pass
 
 CodeFlowInterpreter.Flow(__file__)
 # CodeFlowTest.Flow(__file__)

@@ -3,7 +3,8 @@ from tkinter import *
 
 class Arrow:
     def __init__(self, canvas, gr):
-        pass
+        x1 =  gr
+        #self.arrow = canvas.create_line(x1, y1, x2, y2, width=2)
 
 
 class Process:
@@ -96,7 +97,7 @@ class ForLoopRange:
 
 class ForLoopIter:
     def __init__(self, canvas, iterator, iterable, gr):
-        pass
+        self.box = Decision(canvas, 'End of {}?'.format(iterable), gr)
 
 
 class WhileLoop:
