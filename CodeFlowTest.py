@@ -14,7 +14,7 @@ def preParse(lines):
       leadSpace = findall(r'^[\\s]*[\\t]*', line)
       indents.append(leadSpace[0])
   
-  parse(clean)
+  return clean, indents
       
 
 def parse(lines):
@@ -30,20 +30,39 @@ def parse(lines):
     imports = findall(r'import (.+)', line)
     inputs = findall(r'input\((.*)\)', line)
     defVars = findall(r'(\w+)\s*=\s*([^=]+)', line)
-    print(f'fors: {fors}')
-    print(f'whiles: {whiles}')
-    print(f'ifs: {ifs}')
-    print(f'prints: {prints}')
-    print(f'functions: {functions}')
-    print(f'imports: {imports}')
-    print(f'inputs: {inputs}')
-    print(f'defVars: {defVars}')
-    print()
+    #print(f'fors: {fors}')
+    #print(f'whiles: {whiles}')
+    #print(f'ifs: {ifs}')
+    #print(f'prints: {prints}')
+    #print(f'functions: {functions}')
+    #print(f'imports: {imports}')
+    #print(f'inputs: {inputs}')
+    #print(f'defVars: {defVars}')
+    #print()
+    if(fors):
+      pass
+    elif(whiles):
+      pass
+    elif(ifs):
+      pass
+    elif(prints):
+      pass
+    elif(functions):
+      pass
+    elif(imports):
+      pass
+    elif(inputs):
+      pass
+    elif(defVars):
+      pass
+    else:
+      other = [line]
 
 def Flow():
   with open('CodeFlowImport.py', 'r') as f:
     cont = f.readlines()
-    preParse(cont)
+    clean, indents = preParse(cont)
+    parse(clean)
 
 nodeVals = {'fors': 3, 'whiles': 1, 'ifs': 1, 'prints': 1, 'functions': 1, 'imports': 1, 'inputs': 2, 'defVars': 1, 'other': 1}
 
