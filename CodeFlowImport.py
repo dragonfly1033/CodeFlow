@@ -1,31 +1,17 @@
-import CodeFlowInterpreter
 import CodeFlowTest
 
+a = 5
+b = '4'
+c=a+int(b)
+print(c)
+if c == 9:
+  print('square!')
 
-a = 9
+while 1 == 9:
+  pass
 
-b = 8
+for i, v in enumerate([1,2,3,4,5]):
+  print(i, v)
 
-print(a+b)
-
-c = 'hey'
-
-d = a+b
-
-list = [1, 2, 3, 4]
-
-print(c, d)
-
-g = input('whats your name: ')
-
-while g == 'me':
-    while g == 'you':
-        print('no')
-
-for i in range(3):
-    for i in list:
-        pass
 
 CodeFlowInterpreter.Flow(__file__)
-# CodeFlowTest.Flow(__file__)
-#input()
